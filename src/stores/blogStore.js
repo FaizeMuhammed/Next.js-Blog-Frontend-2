@@ -9,7 +9,7 @@ const useBlogStore = create((set) => ({
   fetchPosts: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get('http://localhost:5000/api/posts', {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`, {
         withCredentials: true
       });
       console.log('API Response:', response.data);
@@ -28,7 +28,7 @@ const useBlogStore = create((set) => ({
   deletePost: async (id) => {
     console.log('Attempting to delete post with ID:', id);
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${id}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/${id}`, {
         withCredentials: true
       });
       // Update posts state by filtering out the deleted post

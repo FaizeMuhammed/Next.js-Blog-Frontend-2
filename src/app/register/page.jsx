@@ -28,7 +28,7 @@ export default function Register() {
 
   const signupMutation = useMutation({
     
-    mutationFn: (data) => axios.post('http://localhost:5000/api/auth/register', data, {
+    mutationFn: (data) => axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, data, {
       withCredentials: true,
     }),
     onSuccess: (response) => {

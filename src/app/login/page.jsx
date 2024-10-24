@@ -38,7 +38,7 @@ export default function Login() {
   const loginMutation = useMutation({
     mutationFn: (data) => {
       setLoading(true); // Set loading state to true
-      return axios.post('http://localhost:5000/api/auth/login', data);
+      return axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, data);
     },
     onSuccess: (response) => {
       console.log('Login successful:', response.data);
