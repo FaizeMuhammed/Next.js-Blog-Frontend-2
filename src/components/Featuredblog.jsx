@@ -34,7 +34,7 @@ const BlogListing = () => {
   const featuredBlogs = [
     {
       title: "Mars Exploration: Unveiling Alien Landscapes",
-      description: "Embark on a journey through the Red Planet's breathtaking landscapes and uncover the mysteries of Mars.",
+      description: "Embark on a journey through the Red Planets breathtaking landscapes and uncover the mysteries of Mars.",
       image: "/img1.png"
     },
     {

@@ -1,7 +1,7 @@
 export default function Catchtitle(){
     return(
         <div className="container pt-10  ">
-            <h1 className="sm:text-[80px] text-[40px]  text-white  leading-snug sm:pl-0 pl-4">Today's Headlines: Stay</h1>
+            <h1 className="sm:text-[80px] text-[40px]  text-white  leading-snug sm:pl-0 pl-4">Today&apos;s Headlines: Stay</h1>
             
             <div className="div sm:flex items-center gap-8 sm:pl-0 pl-4">
                 <h1 className="sm:text-[80px] text-[40px] text-white ">Informed</h1>

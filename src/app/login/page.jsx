@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -160,7 +160,7 @@ export default function Login() {
               <div className="text-center space-y-2">
                 <div className="text-gray-500">or</div>
                 <div className="text-gray-500 text-sm">
-                  Don't have an account yet?{' '}
+                  Don&apos;t have an account yet?{' '}
                   <a href="/register" className="text-yellow-400 hover:underline">Register Here</a>
                 </div>
               </div>
