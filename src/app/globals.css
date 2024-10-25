@@ -229,3 +229,25 @@ height: 150px;
     padding-left: 5px; 
    }
 }
+
+.loader {
+  border: 8px solid rgba(255, 255, 255, 0.1);
+  border-left-color: #ffffff; /* Change this color as needed */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.container::-webkit-scrollbar {
+  display: none; /* Hides scrollbar */
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+

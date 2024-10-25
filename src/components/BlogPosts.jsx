@@ -166,7 +166,12 @@ const BlogPostList = () => {
   }, [posts]);
 
   if (isLoading) {
-    return <div className="text-white text-center p-8">Loading posts...</div>;
+    return (
+      <div className="text-white text-center p-8">
+        <div className="loader"></div> 
+        <p>Loading posts...</p>
+      </div>
+    );
   }
 
   if (error) {
@@ -174,7 +179,10 @@ const BlogPostList = () => {
   }
 
   if (!Array.isArray(posts) || posts.length === 0) {
-    return <div className="text-white text-center p-8">No posts available.</div>;
+    return <div className="text-white text-center p-8">
+    <div className="loader"></div> 
+    <p>Looking for posts.....</p>
+  </div>
   }
 
   // Process and validate posts data
@@ -205,14 +213,28 @@ const BlogPostList = () => {
   const [featuredPost, ...otherPosts] = validPosts;
 
   return (
-    <div className=" container space-y-8 border-t-2 border-[#262626]  ">
-      <FeaturedBlogPostCard post={featuredPost} />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {otherPosts.map(post => (
-          <BlogPostCard key={safeString(post._id)} post={post} />
-        ))}
-      </div>
-    </div>
+    <div className="container space-y-8 border-t-2 border-[#262626] max-h-[900px] overflow-y-auto relative">
+  <FeaturedBlogPostCard post={featuredPost} />
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {otherPosts.map(post => (
+      <BlogPostCard key={safeString(post._id)} post={post} />
+    ))}
+  </div>
+  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-6 w-6 animate-bounce text-yellow-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m0 0l-4-4m4 4l4-4" />
+    </svg>
+    <span className="text-white text-sm">Scroll Down</span>
+  </div>
+</div>
+
+  
   );
 };
 

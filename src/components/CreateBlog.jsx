@@ -49,6 +49,8 @@ export default function CreateBlog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('formdata',formData);
+    
     try {
       const response = await axios.post('http://localhost:5000/api/posts', formData, {
         withCredentials: true // This ensures cookies are sent with the request

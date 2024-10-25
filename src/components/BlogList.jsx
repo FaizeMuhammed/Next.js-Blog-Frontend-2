@@ -19,34 +19,31 @@ export default function BlogList() {
     const [deleteError, setDeleteError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Fetch user and posts on component mount
     useEffect(() => {
         const initData = async () => {
-            await initializeAuth(); // Initialize user from cookies
-            fetchPosts(); // Fetch posts after user is set
+            await initializeAuth();
+            fetchPosts();
         };
         initData();
     }, [fetchPosts, initializeAuth]);
 
     useEffect(() => {
-        console.log('Fetched Posts:', posts); // Log posts after they are fetched
+        console.log('Fetched Posts:', posts);
     }, [posts]);
 
     const handleDelete = async (id) => {
         setDeleteError(null);
         try {
-            await deletePost(id); // This should update the posts state
+            await deletePost(id);
         } catch (error) {
             setDeleteError('Failed to delete post. You may not have permission.');
         }
     };
 
-    // Handle search term change
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    // Filter posts based on search term
     const filteredPosts = posts.filter(post => {
         const lowerCaseTerm = searchTerm.toLowerCase();
         return (
@@ -55,63 +52,82 @@ export default function BlogList() {
         );
     });
 
-    console.log(user);
-
-    if (authLoading || postsLoading) return <div className="text-white">Loading...</div>;
-    if (postsError) return <div className="text-white">Error fetching posts: {postsError.toString()}</div>;
+    if (authLoading || postsLoading) return <div className="text-white text-center p-8">
+        <div className="loader"></div>
+        <p>Loading posts...</p>
+    </div>;
+    if (postsError) return <div className="text-white text-center p-8">
+        <div className="loader"></div>
+        <p>Error fetching posts: {postsError.toString()}</p>
+    </div>
 
     return (
-        <>
-            <div className="text-yellow-400 flex items-center justify-between p-4">
-                <h1 className="font-bold text-lg">List Blogs</h1>
-                <div className="relative w-full max-w-md mx-auto">
-                    <Input 
-                        type="text" 
-                        placeholder="Search anything here..." 
-                        className="w-full py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none" 
+        <div className="w-full p-4 flex flex-col h-screen">
+            {/* Header Section */}
+            <div className="text-yellow-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                <h1 className="font-bold text-lg whitespace-nowrap">List Blogs</h1>
+                <div className="relative w-full sm:max-w-md">
+                    <Input
+                        type="text"
+                        placeholder="Search anything here..."
+                        className="w-full py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none"
                         value={searchTerm}
-                        onChange={handleSearchChange} // Update search term on change
+                        onChange={handleSearchChange}
                     />
                     <Search className="absolute right-3 top-2 w-5 h-5 text-gray-400" />
                 </div>
             </div>
-            {deleteError && <div className="text-red-500">{deleteError}</div>}
-            <Table className="m-10 w-[90%] bg-[#262626] rounded-md">
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="text-white">Author</TableHead>
-                        <TableHead className="text-white">Category</TableHead>
-                        <TableHead className="text-white">Title</TableHead>
-                        <TableHead className="text-white">Date Published</TableHead>
-                        <TableHead className="text-white">Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {Array.isArray(filteredPosts) && filteredPosts.length > 0 ? (
-                        filteredPosts.map((post) => (
-                            <TableRow key={post._id}>
-                                <TableCell className="text-white">{post.authorName || 'N/A'}</TableCell>
-                                <TableCell className="text-white">{post.category || 'N/A'}</TableCell>
-                                <TableCell className="text-white">{post.title || 'N/A'}</TableCell>
-                                <TableCell className="text-white">
-                                    {post.publishingDate
-                                        ? new Date(post.publishingDate).toLocaleDateString()
-                                        : 'N/A'}
-                                </TableCell>
-                                <TableCell className="text-white">
-                                    <button onClick={() => handleDelete(post._id)}>
-                                        <Trash2 className="h-4 w-4 text-white" />
-                                    </button>
-                                </TableCell>
+
+            {deleteError && (
+                <div className="text-red-500 mb-4">{deleteError}</div>
+            )}
+
+            {/* Table Section with Overflow */}
+            <div className="flex-grow overflow-hidden rounded-lg bg-[#262626]">
+                <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-200px)]">
+                    <Table>
+                        <TableHeader className="sticky top-0 bg-[#262626] z-10">
+                            <TableRow>
+                                <TableHead className="text-white min-w-[120px]">Author</TableHead>
+                                <TableHead className="text-white min-w-[120px]">Category</TableHead>
+                                <TableHead className="text-white min-w-[200px]">Title</TableHead>
+                                <TableHead className="text-white min-w-[150px]">Date Published</TableHead>
+                                <TableHead className="text-white min-w-[80px]">Actions</TableHead>
                             </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={5} className="text-white">No posts available</TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </>
+                        </TableHeader>
+                        <TableBody>
+                            {Array.isArray(filteredPosts) && filteredPosts.length > 0 ? (
+                                filteredPosts.map((post) => (
+                                    <TableRow key={post._id}>
+                                        <TableCell className="text-white whitespace-nowrap">{post.authorName || 'N/A'}</TableCell>
+                                        <TableCell className="text-white whitespace-nowrap">{post.category || 'N/A'}</TableCell>
+                                        <TableCell className="text-white">{post.title || 'N/A'}</TableCell>
+                                        <TableCell className="text-white whitespace-nowrap">
+                                            {post.publishingDate
+                                                ? new Date(post.publishingDate).toLocaleDateString()
+                                                : 'N/A'}
+                                        </TableCell>
+                                        <TableCell className="text-white">
+                                            <button
+                                                onClick={() => handleDelete(post._id)}
+                                                className="hover:bg-gray-700 p-2 rounded-full transition-colors"
+                                            >
+                                                <Trash2 className="h-4 w-4 text-white" />
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="text-white text-center">
+                                        No posts available
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
+        </div>
     );
 }

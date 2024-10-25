@@ -9,7 +9,8 @@ import useAuthStore from '@/stores/authStore';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Loader } from 'lucide-react'; // Assuming you use Lucide icons, or import your own spinner
+import { Loader } from 'lucide-react'; 
+// Loading spinner icon
 
 const signupSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters long'),
@@ -20,6 +21,8 @@ const signupSchema = z.object({
 
 export default function Register() {
   const setUser = useAuthStore((state) => state.setUser);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const setLoading = useAuthStore((state) => state.setLoading);
   const router = useRouter();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -27,15 +30,17 @@ export default function Register() {
   });
 
   const signupMutation = useMutation({
-    
-    mutationFn: (data) => axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, data, {
-      withCredentials: true,
-    }),
+    mutationFn: (data) =>{
+      setLoading(true); 
+       return axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, data, {
+     
+    })},
     onSuccess: (response) => {
+      console.log('signup successful:', response.data);
       const { user } = response.data;
       setUser({ user });
-      
-      
+      setLoading(false);
+
       if (user.role === 'admin') {
         router.push('/dashboard');
       } else {
@@ -44,12 +49,12 @@ export default function Register() {
     },
     onError: (error) => {
       alert('Signup failed: ' + (error.response?.data?.message || 'Something went wrong'));
+      setLoading(false); 
     },
   });
 
   const onSubmit = (data) => {
     console.log(data);
-    
     signupMutation.mutate(data);
   };
 
@@ -61,7 +66,7 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-[#141414]">
       {/* Logo Header */}
-      <div className="logoheader p-10 border-b border-[#262626] flex items-center gap-2 text-white font-bold  ">
+      <div className="logoheader p-10 border-b border-[#262626] flex items-center gap-2 text-white font-bold">
         <img src="/Group.png" alt="FutureTech" className="h-8" />
         <h1>Future Tech</h1>
       </div>
@@ -144,10 +149,32 @@ export default function Register() {
               <Button 
                 type="submit" 
                 className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold flex justify-center items-center"
-                disabled={signupMutation.isPending}
+                disabled={isLoading || signupMutation.isLoading} // Disable button if loading
               >
-                {signupMutation.isLoading ? (
-                  <Loader className="animate-spin mr-2" />  // Loading spinner icon
+                {isLoading || signupMutation.isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 text-black"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z"
+                      ></path>
+                    </svg>
+                    <span>Loading...</span>
+                  </>
                 ) : (
                   'Create Account'
                 )}

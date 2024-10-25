@@ -52,8 +52,7 @@ const UserCard = ({ user }) => {
 
 export default function UserDashboardList() {
   const { users, isLoading, error, fetchUsers } = useAuthStore();
-  console.log('users',users);
-  
+
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
@@ -74,7 +73,6 @@ export default function UserDashboardList() {
     fetchData();
   }, [fetchUsers]);
 
-  // Filter users based on search query and selected role
   const getFilteredUsers = () => {
     if (!searchQuery && selectedRole === "all" && sortOrder === "newest") {
       return users; // Return all users if no filters are applied
@@ -84,14 +82,14 @@ export default function UserDashboardList() {
 
     // Apply search filter
     if (searchQuery) {
-      filteredUsers = filteredUsers.filter(user => 
+      filteredUsers = filteredUsers.filter(user =>
         user.name?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Apply role filter
     if (selectedRole !== "all") {
-      filteredUsers = filteredUsers.filter(user => 
+      filteredUsers = filteredUsers.filter(user =>
         user.role?.toLowerCase() === selectedRole.toLowerCase()
       );
     }
@@ -112,21 +110,24 @@ export default function UserDashboardList() {
         <Card className="bg-[#1E1E1E] text-white p-6">
           <h2 className="text-xl mb-4">Authentication Required</h2>
           <p className="mb-4">Please log in to view the user dashboard.</p>
-          <Button onClick={() => {}}>Log In</Button>
+          <Button onClick={() => { }}>Log In</Button>
         </Card>
       </div>
     );
   }
 
   if (isLoading) return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-      <div className="text-white text-xl">Loading...</div>
+    <div className="text-white text-center p-8">
+      <div className="loader"></div>
+      <p>Loading users...</p>
     </div>
   );
 
   if (error) return (
-    <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-      <div className="text-red-500 text-xl">Error: {error}</div>
+
+    <div className="text-white text-center p-8">
+      <div className="loader"></div>
+      <p>Error: {error}</p>
     </div>
   );
 
@@ -137,10 +138,10 @@ export default function UserDashboardList() {
       <div className="text-yellow-400 flex items-center justify-between p-4">
         <h1 className="font-bold text-lg">List Blogs</h1>
         <div className="relative w-full max-w-md mx-auto">
-          <Input 
-            type="text" 
-            placeholder="Search users by name..." 
-            className="w-full py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none" 
+          <Input
+            type="text"
+            placeholder="Search users by name..."
+            className="w-full py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -149,13 +150,13 @@ export default function UserDashboardList() {
       </div>
       <div className="min-h-screen bg-[#121212] p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Users Dashboard</h1>
+          <h1 className="text-2xl font-bold text-white mr-2">Users</h1>
           <div className="flex space-x-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="bg-[#1E1E1E] text-white">
-                  {selectedRole === "all" ? "All Users" : 
-                   selectedRole === "admin" ? "Admin Users" : "Regular Users"}
+                <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-white">
+                  {selectedRole === "all" ? "All Users" :
+                    selectedRole === "admin" ? "Admin Users" : "Regular Users"}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -166,7 +167,7 @@ export default function UserDashboardList() {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="bg-[#1E1E1E] text-white">
+                <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-white">
                   {sortOrder === "newest" ? "Newest First" : "Oldest First"}
                 </Button>
               </DropdownMenuTrigger>
@@ -175,13 +176,13 @@ export default function UserDashboardList() {
                 <DropdownMenuItem onClick={() => setSortOrder("oldest")}>Oldest First</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="ghost" className="text-white">
+            <Button variant="ghost" size="sm" className="text-white">
               <MoreVertical />
             </Button>
           </div>
         </div>
 
-        <div className="bg-[#1E1E1E] rounded-lg p-4">
+        <div className="bg-[#1E1E1E] rounded-lg p-4 max-h-[70vh] overflow-y-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
               filteredUsers.map(user => (
