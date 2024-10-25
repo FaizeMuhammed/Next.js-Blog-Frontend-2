@@ -87,7 +87,7 @@ export default function Sidebar({ setActiveComponent }) {
                         setActiveComponent('createBlog');
                         setIsSidebarOpen(false);
                       }}
-                      className="w-full text-left text-white hover:text-yellow-400 border-l-2 border-transparent hover:border-yellow-400 px-2 lg:px-4 flex items-center space-x-2"
+                      className="w-full text-left hover:bg-transparent border-none text-white hover:text-yellow-400 border-l-2 border-transparent hover:border-yellow-400 px-2 lg:px-4 flex items-center space-x-2"
                     >
                       <FaPlus className="text-lg" />
                       <span className="hidden lg:inline">Create Blog</span>
@@ -98,7 +98,7 @@ export default function Sidebar({ setActiveComponent }) {
                         setActiveComponent('blogList');
                         setIsSidebarOpen(false);
                       }}
-                      className="w-full text-left text-white hover:text-yellow-400 border-l-2 border-transparent hover:border-yellow-400 px-2 lg:px-4 flex items-center space-x-2"
+                      className="w-full text-left hover:bg-transparent border-none text-white hover:text-yellow-400 border-l-2 border-transparent hover:border-yellow-400 px-2 lg:px-4 flex items-center space-x-2"
                     >
                       <FaList className="text-lg" />
                       <span className="hidden lg:inline">List Blog</span>

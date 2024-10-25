@@ -16,14 +16,14 @@ const UserCard = ({ user }) => {
   };
 
   return (
-    <Card className="bg-[#2B2B2B] text-white border-none shadow-lg hover:shadow-xl transition-shadow">
+    <Card className="bg-[#1a1a1a] text-white border-none shadow-lg hover:shadow-xl transition-shadow">
       <CardContent className="p-6">
         <div className="flex flex-col items-center">
           <Avatar className="w-20 h-20 mb-4">
             {user.avatar ? (
               <AvatarImage src={user.avatar} alt={user.username || 'User'} />
             ) : (
-              <AvatarFallback className="bg-blue-500 text-white text-2xl font-bold">
+              <AvatarFallback className="bg-[#98989a] text-white text-2xl font-bold">
                 {getInitial(user.username)}
               </AvatarFallback>
             )}
@@ -31,19 +31,20 @@ const UserCard = ({ user }) => {
           <h3 className="text-lg font-semibold">{user.username || 'Unknown User'}</h3>
           <p className="text-sm text-gray-400">{user.role || 'No Role'}</p>
         </div>
-        <div className="flex justify-between mt-6">
-          <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-            <ThumbsUp className="mr-2 h-4 w-4" />
-            {user.likes ?? 0}
-          </Button>
-          <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-            <MessageSquare className="mr-2 h-4 w-4" />
-            {user.comments ?? 0}
-          </Button>
-          <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
-            <Share2 className="mr-2 h-4 w-4" />
-            {user.shares ?? 0}
-          </Button>
+        <div className="flex justify-between mt-6 ">
+          <div className="div border-r border-r-[#98989a] w-1/3 ml-1 flex flex-col justify-center items-center">
+            <h4 className='text-[#98989a] text-[12px]'>Like</h4>
+            <h4 className='text-[#98989a] text-[12px]'>{user.likes ?? 2}</h4>
+          </div>
+          <div className="div border-r flex flex-col justify-center items-center border-r-[#98989a] w-1/3 ml-1">
+            <h4 className='text-[#98989a] text-[12px]'>Comment</h4>
+            <h4 className='text-[#98989a] text-[12px]'>{user.comments ?? 123}</h4>
+          </div>
+          <div className="div  w-1/3 ml-1 flex flex-col justify-center items-center">
+            <h4 className='text-[#98989a] text-[12px]'>Share</h4>
+            <h4 className='text-[#98989a] text-[12px]'>{user.share ?? 5}</h4>
+          </div>
+         
         </div>
       </CardContent>
     </Card>
@@ -135,26 +136,26 @@ export default function UserDashboardList() {
 
   return (
     <>
-      <div className="text-yellow-400 flex items-center justify-between p-4">
-        <h1 className="font-bold text-lg">List Blogs</h1>
-        <div className="relative w-full max-w-md mx-auto">
+      <div className="text-yellow-400 flex items-center bg-[#141414] justify-between p-4">
+        <h1 className="font-bold text-lg sm:block hidden">Team</h1>
+        <div className="relative w-full max-w-md mx-auto flex justify-end">
           <Input
             type="text"
             placeholder="Search users by name..."
-            className="w-full py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none"
+            className="sm:w-full w-[80%] sm:ml-0   py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Search className="absolute right-3 top-2 w-5 h-5 text-gray-400" />
         </div>
       </div>
-      <div className="min-h-screen bg-[#121212] p-6">
+      <div className="min-h-screen bg-[#141414] p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white mr-2">Users</h1>
+          <h1 className="text-2xl font-bold text-white mr-2"></h1>
           <div className="flex space-x-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-white">
+                <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-[#98989a] rounded-2xl border-[#98989a]">
                   {selectedRole === "all" ? "All Users" :
                     selectedRole === "admin" ? "Admin Users" : "Regular Users"}
                 </Button>
@@ -167,7 +168,7 @@ export default function UserDashboardList() {
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-white">
+                <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-[#98989a] rounded-2xl border-[#98989a]">
                   {sortOrder === "newest" ? "Newest First" : "Oldest First"}
                 </Button>
               </DropdownMenuTrigger>
@@ -182,7 +183,7 @@ export default function UserDashboardList() {
           </div>
         </div>
 
-        <div className="bg-[#1E1E1E] rounded-lg p-4 max-h-[70vh] overflow-y-auto">
+        <div className="bg-[#141414] rounded-lg p-4 max-h-[70vh] overflow-y-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
               filteredUsers.map(user => (

@@ -65,7 +65,7 @@ export default function BlogList() {
         <div className="w-full p-4 flex flex-col h-screen">
             
             <div className="text-yellow-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-                <h1 className="font-bold text-lg whitespace-nowrap">List Blogs</h1>
+                <h1 className="font-bold text-lg whitespace-nowrap sm:ml-0 ml-12">List Blogs</h1>
                 <div className="relative w-full sm:max-w-md">
                     <Input
                         type="text"
@@ -83,19 +83,19 @@ export default function BlogList() {
             )}
 
            
-            <div className="flex-grow overflow-hidden rounded-lg bg-[#262626]">
+            <div className="flex-grow overflow-hidden rounded-lg bg-[#1a1a1a]">
                 <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-200px)]">
                     <Table>
                         <TableHeader className="sticky top-0 bg-[#262626] z-10">
                             <TableRow>
-                                <TableHead className="text-white min-w-[120px]">Author</TableHead>
-                                <TableHead className="text-white min-w-[120px]">Category</TableHead>
-                                <TableHead className="text-white min-w-[200px]">Title</TableHead>
-                                <TableHead className="text-white min-w-[150px]">Date Published</TableHead>
-                                <TableHead className="text-white min-w-[80px]">Actions</TableHead>
+                                <TableHead className="text-[#98989a]  min-w-[120px]">Author</TableHead>
+                                <TableHead className="text-[#98989a] min-w-[120px]">Category</TableHead>
+                                <TableHead className="text-[#98989a] min-w-[200px]">Title</TableHead>
+                                <TableHead className="text-[#98989a] min-w-[150px]">Date Published</TableHead>
+                                <TableHead className="text-[#98989a] min-w-[80px]">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody className="bg-[#1a1a1a]  border-t-[#98989a]">
                             {Array.isArray(filteredPosts) && filteredPosts.length > 0 ? (
                                 filteredPosts.map((post) => (
                                     <TableRow key={post._id}>

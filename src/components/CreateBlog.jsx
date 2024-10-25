@@ -64,12 +64,12 @@ export default function CreateBlog() {
   };
 
   return (
-    <Card className="w-full mt-10 max-w-6xl mx-auto bg-[#1E1E1E] text-white rounded-lg shadow-lg border border-gray-700">
+    <Card className="w-full mt-10 max-w-6xl mx-auto bg-[#1a1a1a] text-white rounded-lg shadow-lg border border-none">
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
             <Label htmlFor="blog-image">Blog Image</Label>
-            <Card className="border-2 border-dashed border-yellow-500 bg-[#121212] p-6 text-center cursor-pointer">
+            <Card className="border-2 border-dashed border-yellow-500 bg-[#1e1e1e] p-6 text-center cursor-pointer">
               <CloudUpload className="mx-auto h-12 w-12 text-yellow-500" />
               <p className="mt-2 text-sm text-gray-400">Click to upload or drag and drop</p>
               <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
@@ -84,7 +84,7 @@ export default function CreateBlog() {
               value={formData.title}
               onChange={handleInputChange}
               placeholder="The Best Kept Secrets"
-              className="bg-[#121212] w-[45%]"
+              className="bg-[#1e1e1e] border-none w-[45%]"
             />
           </div>
 
@@ -92,7 +92,7 @@ export default function CreateBlog() {
             <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
               <Select onValueChange={handleSelectChange} value={formData.category}>
-                <SelectTrigger className="bg-[#121212]">
+                <SelectTrigger className="bg-[#1e1e1e] border-none">
                   <SelectValue placeholder="Choose Category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -110,7 +110,7 @@ export default function CreateBlog() {
                 type="date"
                 value={formData.publishingDate}
                 onChange={handleInputChange}
-                className="bg-[#121212]"
+                className="bg-[#1e1e1e] border-none"
               />
             </div>
           </div>
@@ -123,7 +123,8 @@ export default function CreateBlog() {
               value={formData.authorName}
               onChange={handleInputChange}
               placeholder="John Doe"
-              className="bg-[#121212]"
+              className="bg-[#1e1e1e] border-none text-[#89868D]
+"
             />
           </div>
 
@@ -137,7 +138,7 @@ export default function CreateBlog() {
                   value={paragraph.title}
                   onChange={(e) => handleInputChange(e, index)}
                   placeholder="Introduction"
-                  className="bg-[#121212]"
+                  className="bg-[#1e1e1e] border-none"
                 />
               </div>
 
@@ -149,19 +150,21 @@ export default function CreateBlog() {
                   value={paragraph.content}
                   onChange={(e) => handleInputChange(e, index)}
                   placeholder="Write your blog content here..."
-                  className="bg-[#121212] h-32"
+                  className="bg-[#1e1e1e] border-none h-32"
                 />
               </div>
             </div>
           ))}
 
-          <Button type="button" onClick={addParagraph} className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
+          <Button type="button" onClick={addParagraph} className="sm:w-[30%] w-[100%] bg-yellow-500 hover:bg-yellow-600 text-black">
             ADD NEW PARAGRAPH AND DESCRIPTION
           </Button>
-
-          <Button type="submit" className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
+          <div className='w-full flex justify-end'>
+          <Button type="submit" className="sm:w-[20%] w-full py-7 bg-yellow-500 hover:bg-yellow-600 text-black">
             Create Blog
           </Button>
+          </div>
+          
         </form>
       </CardContent>
     </Card>
