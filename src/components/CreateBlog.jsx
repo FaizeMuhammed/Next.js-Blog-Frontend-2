@@ -11,12 +11,14 @@ import axios from 'axios';
 import useAuthStore from '@/stores/authStore';
 
 export default function CreateBlog() {
+  const { user } = useAuthStore();
   const initialFormState = {
     title: '',
     category: '',
     publishingDate: '',
     authorName: '',
-    paragraphs: [{ title: '', content: '' }]
+    paragraphs: [{ title: '', content: '' }],
+    author:user.id
   };
 
   const [formData, setFormData] = useState(initialFormState);
