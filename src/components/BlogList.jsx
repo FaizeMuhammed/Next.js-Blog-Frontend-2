@@ -63,7 +63,7 @@ export default function BlogList() {
 
     return (
         <div className="w-full p-4 flex flex-col h-screen">
-            {/* Header Section */}
+            
             <div className="text-yellow-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                 <h1 className="font-bold text-lg whitespace-nowrap">List Blogs</h1>
                 <div className="relative w-full sm:max-w-md">
@@ -82,7 +82,7 @@ export default function BlogList() {
                 <div className="text-red-500 mb-4">{deleteError}</div>
             )}
 
-            {/* Table Section with Overflow */}
+           
             <div className="flex-grow overflow-hidden rounded-lg bg-[#262626]">
                 <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-200px)]">
                     <Table>

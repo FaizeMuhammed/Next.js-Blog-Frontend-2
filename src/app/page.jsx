@@ -24,7 +24,7 @@ const HomePage = () => {
       } else {
         router.push('/login');
       }
-      setIsLoading(false); // Stop loading once redirect is determined
+      setIsLoading(false); 
     };
     handleRedirect();
   }, [token, user, router]);

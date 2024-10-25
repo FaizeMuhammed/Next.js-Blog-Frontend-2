@@ -19,7 +19,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-// Create QueryClient instance outside component to avoid recreation
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

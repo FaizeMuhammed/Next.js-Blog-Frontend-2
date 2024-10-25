@@ -53,7 +53,6 @@ const TechHero = () => {
           
         </div>
 
-        {/* Features Grid - matches the exact layout from the image */}
         <div className="grid bg-[#141414] rounded-lg p-5 grid-cols-1 md:grid-cols-3 gap-6 ">
           {features.map((feature, index) => (
             <Card 

@@ -10,18 +10,18 @@ import useAuthStore from '@/stores/authStore';
 export default function Dashboard() {
   const [activeComponent, setActiveComponent] = useState('blogList'); 
   const authorizeDashboardAccess = useAuthStore((state) => state.authorizeDashboardAccess);
-  const getUserRole = useAuthStore((state) => state.getUserRole); // Get user role
+  const getUserRole = useAuthStore((state) => state.getUserRole); 
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the user is authorized, otherwise redirect to login
+    
     const isAuthorized = authorizeDashboardAccess();
-    const userRole = getUserRole(); // Get the user's role
+    const userRole = getUserRole(); 
 
     if (!isAuthorized) {
       router.push('/login');
-    } else if (userRole !== 'admin') { // Check if the user is not an admin
-      router.push('/homepage'); // Redirect non-admins to homepage
+    } else if (userRole !== 'admin') { 
+      router.push('/homepage'); 
     }
   }, [authorizeDashboardAccess, getUserRole, router]);
 

@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 
-// Define the schema using Zod for form validation
+
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
@@ -21,13 +21,13 @@ const loginSchema = z.object({
 export default function Login() {
   const setUser = useAuthStore((state) => state.setUser);
   const isAuthorized = useAuthStore((state) => state.isAuthorized);
-  const isLoading = useAuthStore((state) => state.isLoading); // Get the loading state
-  const setLoading = useAuthStore((state) => state.setLoading); // Get setLoading method
+  const isLoading = useAuthStore((state) => state.isLoading); 
+  const setLoading = useAuthStore((state) => state.setLoading); 
   const router = useRouter();
 
   useEffect(() => {
     if (isAuthorized) {
-      router.push('/dashboard'); // Redirect to dashboard if logged in
+      router.push('/dashboard'); 
     }
   }, [isAuthorized, router]);
 
@@ -37,14 +37,16 @@ export default function Login() {
 
   const loginMutation = useMutation({
     mutationFn: (data) => {
-      setLoading(true); // Set loading state to true
-      return axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, data);
+      setLoading(true); 
+      return  axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, data, {
+        withCredentials: true, 
+      });
     },
     onSuccess: (response) => {
-      console.log('Login successful:', response.data);
+      
       const { user } = response.data;
       setUser({ user });
-      setLoading(false); // Reset loading state
+      setLoading(false); 
 
       if (user.role === 'admin') {
         router.push('/dashboard');
@@ -55,26 +57,26 @@ export default function Login() {
     onError: (error) => {
       console.error('Login error:', error);
       alert('Login failed: ' + (error.response?.data?.message || 'Something went wrong'));
-      setLoading(false); // Reset loading state on error
+      setLoading(false); 
     },
   });
 
   const onSubmit = (data) => {
-    console.log('Form data:', data);
+   
     loginMutation.mutate(data);
   };
 
   return (
     <div className="min-h-screen bg-[#141414]">
-      {/* Logo Header */}
+     
       <div className="logoheader p-10 border-b border-[#262626] flex items-center gap-2 text-white font-bold  ">
         <img src="/Group.png" alt="FutureTech" className="h-8" />
         <h1>Future Tech</h1>
       </div>
 
-      {/* Main Content */}
+      
       <div className="flex flex-col lg:flex-row min-h-[calc(100vh-88px)]">
-        {/* Left Side - Welcome Text */}
+       
         <div className="w-full lg:w-[40%] p-6 lg:p-12 lg:border-r border-[#262626]">
           <div className="mb-8 lg:mb-0">
             <div className="flex gap-2 mb-6">
@@ -126,7 +128,7 @@ export default function Login() {
               <Button 
                 type="submit" 
                 className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold flex justify-center items-center space-x-2"
-                disabled={isLoading || loginMutation.isLoading} // Disable button if loading
+                disabled={isLoading || loginMutation.isLoading} 
               >
                 {isLoading || loginMutation.isLoading ? ( // Show loading animation
                   <>

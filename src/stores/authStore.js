@@ -5,9 +5,23 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL:  process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  interceptors: {
+    request: (config) => {
+      
+      return config;
+    },
+    response: (response) => {
+      
+      return response;
+    }
+  }
 });
+
 
 const useAuthStore = create(
   persist(
@@ -19,9 +33,7 @@ const useAuthStore = create(
       isAuthorized: false,
 
       setUser: (userData) => {
-        if (userData?.user) {
-          Cookies.set('user', JSON.stringify(userData.user), { expires: 7 });
-        }
+       
         set({
           user: userData.user,
           isAuthorized: true,
@@ -33,7 +45,7 @@ const useAuthStore = create(
         set({ isLoading: value });
       },
 
-      // Initialize auth state from cookies
+      
       initializeAuth: () => {
         const userStr = Cookies.get('user');
         if (userStr) {
@@ -41,13 +53,13 @@ const useAuthStore = create(
             const user = JSON.parse(userStr);
             set({ user, isAuthorized: true, error: null });
           } catch (error) {
-            console.error('Error parsing user data:', error);
+            
             get().logout();
           }
         }
       },
 
-      // Check if user is authorized to access the dashboard
+      
       authorizeDashboardAccess: () => {
         return get().isAuthorized;
       },
@@ -64,7 +76,7 @@ const useAuthStore = create(
           
           // Validate the response data
           if (response.data && Array.isArray(response.data.users)) {
-            // If the API returns { users: [...] }
+            
             set({ 
               users: response.data.users,
               isLoading: false,
@@ -81,13 +93,13 @@ const useAuthStore = create(
             throw new Error('Invalid data format received from server');
           }
         } catch (error) {
-          console.error('Error fetching users:', error);
+         
           set({
             error: error.response?.data?.message || error.message || 'Failed to fetch users',
             isLoading: false,
-            users: [] // Reset users on error
+            users: [] 
           });
-          throw error; // Re-throw the error for component-level handling
+          throw error; 
         }
       },
 
@@ -114,31 +126,55 @@ const useAuthStore = create(
         }));
       },
 
-      // Clear users array
+      
       clearUsers: () => {
         set({ users: [] });
       },
 
       // Logout user
-      logout: () => {
-        Cookies.remove('user');
-        set({
-          user: null,
-          users: [],
-          isAuthorized: false,
-          error: null,
-        });
+     
+      logout: async () => {
+        try {
+          
+          
+          
+          
+          
+          const response = await api.get('/auth/logout', {
+            withCredentials: true
+          });
+          
+          
+          
+          // Clear local storage and state
+          Cookies.remove('user', { path: '/' });
+          set({
+            user: null,
+            isAuthorized: false,
+            error: null,
+          });
+          
+          
+        } catch (error) {
+          
+          
+          set({
+            user: null,
+            isAuthorized: false,
+            error: null,
+          });
+        }
       },
     }),
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        user: state.user,
-        // Don't persist users array in localStorage
-      }),
+     
     }
   )
 );
+
+
+
 
 export default useAuthStore;

@@ -134,7 +134,7 @@ export default function Sidebar({ setActiveComponent }) {
                   </div>
                   <div className="flex flex-col">
                     <div className="name text-black font-semibold">
-                      {user?.name || 'User Name'}
+                      {user?.username || 'User Name'}
                     </div>
                     <div className="email text-black text-sm">
                       {user?.email || 'user@example.com'}

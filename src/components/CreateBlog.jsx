@@ -49,13 +49,13 @@ export default function CreateBlog() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('formdata',formData);
+   
     
     try {
-      const response = await axios.post('http://localhost:5000/api/posts', formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`, formData, {
         withCredentials: true // This ensures cookies are sent with the request
       });
-      console.log('Blog post created:', response.data);
+     
       
       setFormData(initialFormState);
     } catch (error) {

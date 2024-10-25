@@ -18,16 +18,17 @@ export default function Homeheader() {
                 <Image src="/Group.png" alt="Logo" width={40} height={40} />
                 <h2 className="font-bold text-white">FutureTech</h2>
             </div>
-            {user && (
-          <Button
-            
-            onClick={handleLogout}
-            className=" sm:mr-[100px] mr-2 p-2 bg-[#262626] flex items-center  border-l-2 border-transparent "
-          >
-            {/* <FaSignOutAlt className="text-yellow-400"/> */}
-            <span className=" lg:inline text-[#666666]">Logout</span>
-          </Button>
-        )}
+            <div className="nave flex">
+              <ul className="flex gap-8">
+                <li className=" text-[#7e7e81]">Home</li>
+                <li className=" text-[#7e7e81]">News</li>
+                <li className=" text-[#7e7e81]">Podcasts</li>
+                <li className=" text-[#7e7e81]">Resources</li>
+              </ul>
+              
+
+            </div>
+            <Button className="bg-yellow-400 text-black ">Contact us</Button>
 
         </div>
 

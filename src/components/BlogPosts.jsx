@@ -4,15 +4,16 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Heart,  Send, ArrowUpRight } from "lucide-react";
 import useBlogStore from '@/stores/blogStore';
+import { useRouter } from 'next/navigation';
 
-// Utility function to ensure safe string conversion
+
 const safeString = (value) => {
   if (value === null || value === undefined) return '';
   if (typeof value === 'object' && value._id) return value._id.toString();
   return String(value);
 };
 
-// Utility function to ensure safe number conversion
+
 const safeNumber = (value) => {
   const num = Number(value);
   return isNaN(num) ? 0 : num;
@@ -26,7 +27,7 @@ const getCategoryImage = (category) => {
     case 'travel':
       return '/Travel.jpg';
     default:
-      return '/api/placeholder/400/300'; // Fallback image or post image
+      return '/api/placeholder/400/300'; 
   }
 };
 
@@ -40,9 +41,9 @@ const formatDate=(dateString)=> {
   });
 }
 
-// Component for the featured (large) blog post card
 const FeaturedBlogPostCard = ({ post }) => {
-  const [liked, setLiked] = useState(false); // State for like button
+  const router = useRouter();
+  const [liked, setLiked] = useState(false); 
 
   if (!post || typeof post !== 'object') {
     console.error('Invalid post data received:', post);
@@ -62,7 +63,7 @@ const FeaturedBlogPostCard = ({ post }) => {
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
           <div>
             <CardTitle className="text-2xl mb-2">{safeString(post.title) || 'Untitled'}</CardTitle>
-            <p className="text-zinc-400 mb-4">{safeString(post.paragraph) || 'No description available'}</p>
+            <p className="text-zinc-400 mb-4">{safeString(post.paragraphs[0].content) || 'No description available'}</p>
             <div className="cattags flex justify-start gap-5">
               <div className="items-center mb-4">
                 <p className="text-[18px] text-[#98989A]">Category</p>
@@ -94,7 +95,7 @@ const FeaturedBlogPostCard = ({ post }) => {
             </div>
             <button
               className="ml-auto text-[#666666] hover:underline border border-[#262626] p-3 rounded-md"
-              onClick={() => post.onDelete?.(safeString(post._id))}
+              onClick={() => router.push(`/homepage/${post._id}`)}
             >
               Read More
             </button>
@@ -108,7 +109,8 @@ const FeaturedBlogPostCard = ({ post }) => {
 
 // Component for the smaller blog post cards
 const BlogPostCard = ({ post }) => {
-  const [liked, setLiked] = useState(false); // State for like button
+  const [liked, setLiked] = useState(false); 
+  const router = useRouter();
 
   if (!post || typeof post !== 'object') {
     console.error('Invalid post data received:', post);
@@ -142,7 +144,7 @@ const BlogPostCard = ({ post }) => {
         </div>
         <button
           className="border bg-[#1a1a1a] border-[#262626] pt-2  pb-2 pl-10 pr-10 rounded-lg text-[#666666] hover:underline flex items-center"
-          onClick={() => post.onDelete?.(safeString(post._id))}
+          onClick={() => router.push(`/homepage/${post._id}`)}
         >
           Read More <ArrowUpRight size={14} className="text-yellow-400 ml-1" />
         </button>
@@ -154,7 +156,8 @@ const BlogPostCard = ({ post }) => {
 // Main component for the blog post list
 const BlogPostList = () => {
   const { posts, isLoading, error, fetchPosts, deletePost } = useBlogStore();
-
+   console.log(posts);
+   
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
@@ -204,7 +207,7 @@ const BlogPostList = () => {
       likes: safeNumber(post.likes),
       onDelete: deletePost
     };
-  }).filter(Boolean); // Remove any null entries
+  }).filter(Boolean); 
 
   if (validPosts.length === 0) {
     return <div className="text-white text-center p-8">No valid posts available.</div>;

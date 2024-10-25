@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Loader } from 'lucide-react'; 
-// Loading spinner icon
+import { useEffect } from 'react';
+
 
 const signupSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters long'),
@@ -23,7 +24,14 @@ export default function Register() {
   const setUser = useAuthStore((state) => state.setUser);
   const isLoading = useAuthStore((state) => state.isLoading);
   const setLoading = useAuthStore((state) => state.setLoading);
+  const isAuthorized = useAuthStore((state) => state.isAuthorized);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthorized) {
+      router.push('/dashboard'); 
+    }
+  }, [isAuthorized, router]);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(signupSchema),
@@ -33,10 +41,10 @@ export default function Register() {
     mutationFn: (data) =>{
       setLoading(true); 
        return axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, data, {
-     
-    })},
+        withCredentials: true, 
+      })},
     onSuccess: (response) => {
-      console.log('signup successful:', response.data);
+     
       const { user } = response.data;
       setUser({ user });
       setLoading(false);
@@ -54,7 +62,7 @@ export default function Register() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    
     signupMutation.mutate(data);
   };
 
