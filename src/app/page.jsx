@@ -13,7 +13,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const handleRedirect = () => {
-      if (!token) {
+      if (!user) {
         router.push('/login');
       } else if (user) {
         if (user.role === 'admin') {

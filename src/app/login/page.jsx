@@ -27,7 +27,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuthorized) {
-      router.push('/dashboard'); 
+      router.push('/'); 
     }
   }, [isAuthorized, router]);
 

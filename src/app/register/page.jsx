@@ -26,10 +26,12 @@ export default function Register() {
   const setLoading = useAuthStore((state) => state.setLoading);
   const isAuthorized = useAuthStore((state) => state.isAuthorized);
   const router = useRouter();
+  // const {user}=useAuthStore();
 
   useEffect(() => {
     if (isAuthorized) {
-      router.push('/dashboard'); 
+
+      router.push('/'); 
     }
   }, [isAuthorized, router]);
 
@@ -43,18 +45,18 @@ export default function Register() {
        return axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/register`, data, {
         withCredentials: true, 
       })},
-    onSuccess: (response) => {
-     
-      const { user } = response.data;
-      setUser({ user });
-      setLoading(false);
-
-      if (user.role === 'admin') {
-        router.push('/dashboard');
-      } else {
-        router.push('/homepage');
-      }
-    },
+      onSuccess: (response) => {
+      
+        const { user } = response.data;
+        setUser({ user });
+        setLoading(false); 
+  
+        // if (user.role === 'admin') {
+        //   router.push('/dashboard');
+        // } else {
+        //   router.push('/homepage');
+        // }
+      },
     onError: (error) => {
       alert('Signup failed: ' + (error.response?.data?.message || 'Something went wrong'));
       setLoading(false); 

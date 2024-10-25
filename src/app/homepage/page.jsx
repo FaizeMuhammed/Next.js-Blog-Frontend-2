@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from "react"
 import BlogPostList from "@/components/BlogPosts"
 import Homeheader from "@/components/Homeheader"
 import Maincomponent from "@/components/Maincomponent"
@@ -18,11 +19,22 @@ import FeaturedHeading from "@/components/FeaturedHeading"
 
 export default function HomePage() {
     const { user, logout } = useAuthStore();
+    const isAuthorized = useAuthStore((state) => state.isAuthorized);
     const router = useRouter();
     const handleLogout = () => {
         logout();
         router.push('/login');
       };
+      useEffect(() => {
+    
+   
+    
+
+        if (!isAuthorized) {
+          router.push('/login');
+        } 
+        
+      }, [isAuthorized,  router]);
       
     return (
         <div className="Homepage w-full  bg-[#141414]">
