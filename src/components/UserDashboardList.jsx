@@ -84,7 +84,7 @@ export default function UserDashboardList() {
     // Apply search filter
     if (searchQuery) {
       filteredUsers = filteredUsers.filter(user =>
-        user.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        user.username?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 

@@ -18,7 +18,7 @@ export default function CreateBlog() {
     publishingDate: '',
     authorName: '',
     paragraphs: [{ title: '', content: '' }],
-    author:user.id
+    
   };
 
   const [formData, setFormData] = useState(initialFormState);
