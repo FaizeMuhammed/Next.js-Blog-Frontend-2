@@ -26,11 +26,11 @@ export default function Login() {
   const router = useRouter();
   const {user}=useAuthStore()
 
-  useEffect(() => {
+  
     if (user) {
       router.push('/'); 
     }
-  }, [user]);
+ 
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
