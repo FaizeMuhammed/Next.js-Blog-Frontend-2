@@ -135,35 +135,24 @@ const useAuthStore = create(
      
       logout: async () => {
         try {
-          
-          
-          
-          
-          
-          const response = await api.get('/auth/logout', {
-            withCredentials: true
-          });
-          
-          
-          
-          // Clear local storage and state
-          Cookies.remove('user', { path: '/' });
-          set({
-            user: null,
-            isAuthorized: false,
-            error: null,
-          });
-          
-          
+            // Call the backend logout endpoint
+            await api.get('/auth/logout', { withCredentials: true });
         } catch (error) {
-          
-          
-          set({
-            user: null,
-            isAuthorized: false,
-            error: null,
-          });
+            console.error('Logout error:', error);
+        } finally {
+            // Remove token and clear state regardless of whether the API call succeeded
+            Cookies.remove('token', { path: '/' });
+            
+            set({
+                user: null,
+                isAuthorized: false,
+                error: null,
+            });
+    
+            // Optionally, redirect to login or homepage after logout
+            window.location.href = '/login';
         }
+    
       },
     }),
     {

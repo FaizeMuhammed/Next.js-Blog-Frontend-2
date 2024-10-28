@@ -30,11 +30,11 @@ export default function HomePage() {
    
     
 
-        if (!isAuthorized) {
+        if (!user) {
           router.push('/login');
         } 
         
-      }, [isAuthorized,  router]);
+      }, [user]);
       
     return (
         <div className="Homepage w-full  bg-[#141414]">

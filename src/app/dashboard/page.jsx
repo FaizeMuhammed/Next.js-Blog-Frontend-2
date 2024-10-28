@@ -12,17 +12,18 @@ export default function Dashboard() {
   const isAuthorized = useAuthStore((state) => state.isAuthorized);
   const getUserRole = useAuthStore((state) => state.getUserRole); 
   const router = useRouter();
+  const {user}=useAuthStore()
 
   useEffect(() => {
     
    
     
 
-    if (!isAuthorized) {
+    if (!user) {
       router.push('/login');
     } 
     
-  }, [isAuthorized,  router]);
+  }, [user]);
 
   const renderComponent = () => {
     switch (activeComponent) {

@@ -28,12 +28,13 @@ export default function Register() {
   const router = useRouter();
   // const {user}=useAuthStore();
 
-  useEffect(() => {
-    if (isAuthorized) {
+  const {user}=useAuthStore()
 
+  useEffect(() => {
+    if (user) {
       router.push('/'); 
     }
-  }, [isAuthorized, router]);
+  }, [user]);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(signupSchema),

@@ -24,12 +24,13 @@ export default function Login() {
   const isLoading = useAuthStore((state) => state.isLoading); 
   const setLoading = useAuthStore((state) => state.setLoading); 
   const router = useRouter();
+  const {user}=useAuthStore()
 
-  // useEffect(() => {
-  //   if (isAuthorized) {
-  //     router.push('/'); 
-  //   }
-  // }, [isAuthorized, router]);
+  useEffect(() => {
+    if (user) {
+      router.push('/'); 
+    }
+  }, [user]);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
