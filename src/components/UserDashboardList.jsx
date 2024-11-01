@@ -3,10 +3,38 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { MoreVertical, ThumbsUp, MessageSquare, Share2 } from "lucide-react";
+import { MoreVertical, Search } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { Search } from 'lucide-react';
 import useAuthStore from '@/stores/authStore';
+
+// Skeleton component for loading state
+const UserCardSkeleton = () => {
+  return (
+    <Card className="bg-[#1a1a1a] text-white border-none shadow-lg">
+      <CardContent className="p-6">
+        <div className="flex flex-col items-center">
+          <div className="w-20 h-20 rounded-full bg-[#262626] animate-pulse mb-4" />
+          <div className="h-4 w-24 bg-[#262626] animate-pulse mb-2 rounded" />
+          <div className="h-3 w-16 bg-[#262626] animate-pulse rounded" />
+        </div>
+        <div className="flex justify-between mt-6">
+          <div className="div border-r border-r-[#262626] w-1/3 ml-1 flex flex-col justify-center items-center">
+            <div className="h-3 w-8 bg-[#262626] animate-pulse mb-1 rounded" />
+            <div className="h-3 w-6 bg-[#262626] animate-pulse rounded" />
+          </div>
+          <div className="div border-r border-r-[#262626] w-1/3 ml-1 flex flex-col justify-center items-center">
+            <div className="h-3 w-8 bg-[#262626] animate-pulse mb-1 rounded" />
+            <div className="h-3 w-6 bg-[#262626] animate-pulse rounded" />
+          </div>
+          <div className="div w-1/3 ml-1 flex flex-col justify-center items-center">
+            <div className="h-3 w-8 bg-[#262626] animate-pulse mb-1 rounded" />
+            <div className="h-3 w-6 bg-[#262626] animate-pulse rounded" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 const UserCard = ({ user }) => {
   if (!user) return null;
@@ -31,7 +59,7 @@ const UserCard = ({ user }) => {
           <h3 className="text-lg font-semibold">{user.username || 'Unknown User'}</h3>
           <p className="text-sm text-gray-400">{user.role || 'No Role'}</p>
         </div>
-        <div className="flex justify-between mt-6 ">
+        <div className="flex justify-between mt-6">
           <div className="div border-r border-r-[#98989a] w-1/3 ml-1 flex flex-col justify-center items-center">
             <h4 className='text-[#98989a] text-[12px]'>Like</h4>
             <h4 className='text-[#98989a] text-[12px]'>{user.likes ?? 2}</h4>
@@ -40,11 +68,10 @@ const UserCard = ({ user }) => {
             <h4 className='text-[#98989a] text-[12px]'>Comment</h4>
             <h4 className='text-[#98989a] text-[12px]'>{user.comments ?? 123}</h4>
           </div>
-          <div className="div  w-1/3 ml-1 flex flex-col justify-center items-center">
+          <div className="div w-1/3 ml-1 flex flex-col justify-center items-center">
             <h4 className='text-[#98989a] text-[12px]'>Share</h4>
             <h4 className='text-[#98989a] text-[12px]'>{user.share ?? 5}</h4>
           </div>
-         
         </div>
       </CardContent>
     </Card>
@@ -53,7 +80,6 @@ const UserCard = ({ user }) => {
 
 export default function UserDashboardList() {
   const { users, isLoading, error, fetchUsers } = useAuthStore();
-
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
@@ -76,26 +102,23 @@ export default function UserDashboardList() {
 
   const getFilteredUsers = () => {
     if (!searchQuery && selectedRole === "all" && sortOrder === "newest") {
-      return users; // Return all users if no filters are applied
+      return users;
     }
 
     let filteredUsers = [...users];
 
-    // Apply search filter
     if (searchQuery) {
       filteredUsers = filteredUsers.filter(user =>
         user.username?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Apply role filter
     if (selectedRole !== "all") {
       filteredUsers = filteredUsers.filter(user =>
         user.role?.toLowerCase() === selectedRole.toLowerCase()
       );
     }
 
-    // Apply sorting
     if (sortOrder === "newest") {
       filteredUsers.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } else if (sortOrder === "oldest") {
@@ -117,23 +140,6 @@ export default function UserDashboardList() {
     );
   }
 
-  if (isLoading) return (
-    <div className="text-white text-center p-8">
-      <div className="loader"></div>
-      <p>Loading users...</p>
-    </div>
-  );
-
-  if (error) return (
-
-    <div className="text-white text-center p-8">
-      <div className="loader"></div>
-      <p>Error: {error}</p>
-    </div>
-  );
-
-  const filteredUsers = getFilteredUsers();
-
   return (
     <>
       <div className="text-yellow-400 flex items-center bg-[#141414] justify-between p-4">
@@ -142,7 +148,7 @@ export default function UserDashboardList() {
           <Input
             type="text"
             placeholder="Search users by name..."
-            className="sm:w-full w-[80%] sm:ml-0   py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none"
+            className="sm:w-full w-[80%] sm:ml-0 py-2 px-4 bg-[#262626] text-gray-200 rounded-full border-none focus:outline-none focus:ring-2 hover:border-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -152,7 +158,7 @@ export default function UserDashboardList() {
       <div className="min-h-screen bg-[#141414] p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-white mr-2"></h1>
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 ml-auto">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="bg-[#1E1E1E] text-[#98989a] rounded-2xl border-[#98989a]">
@@ -185,8 +191,15 @@ export default function UserDashboardList() {
 
         <div className="bg-[#141414] rounded-lg p-4 max-h-[70vh] overflow-y-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
-              filteredUsers.map(user => (
+            {isLoading ? (
+              // Show 8 skeleton cards while loading
+              [...Array(8)].map((_, index) => (
+                <UserCardSkeleton key={index} />
+              ))
+            ) : error ? (
+              <div className="text-white col-span-4 text-center py-8">Error: {error}</div>
+            ) : Array.isArray(getFilteredUsers()) && getFilteredUsers().length > 0 ? (
+              getFilteredUsers().map(user => (
                 <UserCard key={user.id || Math.random()} user={user} />
               ))
             ) : (

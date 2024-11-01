@@ -41,11 +41,13 @@ const BlogPostDetail = ({ params }) => {
   }, [fetchPosts]);
 
   const post = posts?.find(p => p._id === params.id);
-
+   
   if (!post) {
+    console.log("post_id");
+    
     return (
       <div className="container mx-auto p-8 text-white text-center">
-        <p>Post not found</p>
+        <p className='text-black'>Post not found</p>
       </div>
     );
   }

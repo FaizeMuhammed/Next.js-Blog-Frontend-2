@@ -258,3 +258,66 @@ height: 150px;
   scrollbar-width: none;  
 }
 
+/* styles/NotFound.module.css */
+.containertwo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #262626;
+    color: #f0f6fc;
+    text-align: center;
+}
+
+.nexterror {
+    animation: fadeIn 1s ease-in-out;
+}
+
+.pulse {
+    font-size: 10rem;
+    font-weight: bold;
+    margin: 0;
+    animation: pulse 1.5s infinite;
+    color: rgb(220, 198, 0);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+}
+
+p {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+}
+
+.homeButton {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0d1117;
+    background-color: yellow;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.homeButton:hover {
+    background-color: #ef4444;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

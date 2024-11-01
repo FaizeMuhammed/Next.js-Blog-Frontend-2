@@ -25,7 +25,7 @@ export default function Login() {
   const setLoading = useAuthStore((state) => state.setLoading); 
   const router = useRouter();
   const {user}=useAuthStore()
-
+ 
   
     if (user) {
       router.push('/'); 

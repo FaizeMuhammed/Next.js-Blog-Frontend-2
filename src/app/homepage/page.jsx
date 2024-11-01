@@ -14,7 +14,7 @@ import TechHero from "@/components/Techhero"
 import Footer from "@/components/Footer"
 import BlogListing from "@/components/Featuredblog"
 import FeaturedHeading from "@/components/FeaturedHeading"
-
+import Head from "next/head"
 
 
 export default function HomePage() {
@@ -37,6 +37,10 @@ export default function HomePage() {
       }, [user]);
       
     return (
+      <>
+      <Head>
+       <title>FutureTech</title>
+      </Head>
         <div className="Homepage w-full  bg-[#141414]">
 
             <Homeheader/>
@@ -65,6 +69,7 @@ export default function HomePage() {
         )}
 
         </div>
+        </>
 
 
     )

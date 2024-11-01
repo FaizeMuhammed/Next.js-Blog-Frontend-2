@@ -13,7 +13,7 @@ export default function Dashboard() {
   const getUserRole = useAuthStore((state) => state.getUserRole); 
   const router = useRouter();
   const {user}=useAuthStore()
-
+  
   useEffect(() => {
     
    
@@ -39,6 +39,7 @@ export default function Dashboard() {
   };
 
   return (
+    
     <div className="dashboard w-full flex">
       <Sidebar setActiveComponent={setActiveComponent} />
       <div className="mainSec w-full bg-[#141414]">

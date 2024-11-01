@@ -1,7 +1,8 @@
-// app/layout.jsx
+
 'use client';
 
 import { useEffect } from 'react';
+import Head from 'next/head';
 import localFont from "next/font/local";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useAuthStore from '@/stores/authStore';
@@ -18,7 +19,6 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +39,11 @@ export default function RootLayout({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <html lang="en">
+        <Head>
+          <title>futuretech</title>
+          <link rel="icon" href="/favicon.ico" />
+          
+        </Head>
         <body 
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
