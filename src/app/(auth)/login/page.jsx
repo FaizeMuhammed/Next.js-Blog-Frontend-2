@@ -27,9 +27,9 @@ export default function Login() {
   const {user}=useAuthStore()
  
   
-    if (user) {
-      router.push('/'); 
-    }
+    // if (user) {
+    //   router.push('/'); 
+    // }
  
 
   const { register, handleSubmit, formState: { errors } } = useForm({
