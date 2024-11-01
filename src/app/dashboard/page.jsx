@@ -19,11 +19,11 @@ export default function Dashboard() {
    
     
 
-    if (!user) {
+    if (!isAuthorized) {
       router.push('/login');
     } 
     
-  }, [user]);
+  }, [isAuthorized]);
 
   const renderComponent = () => {
     switch (activeComponent) {
